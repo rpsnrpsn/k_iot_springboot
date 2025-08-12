@@ -34,7 +34,7 @@ public class A_TestServiceImpl implements A_TestService {
         Optional<A_Test> optionalTestEntity = testRepository.findById(testId);
 
         A_Test test = optionalTestEntity.orElseThrow(() ->
-            new RuntimeException("해당 ID를 가진 데이터가 없습니다: " + testId));
+                new RuntimeException("해당 ID를 가진 데이터가 업습니다: " + testId));
 
         return test;
     }
