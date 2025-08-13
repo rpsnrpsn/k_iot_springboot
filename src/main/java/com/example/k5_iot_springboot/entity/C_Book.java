@@ -20,11 +20,10 @@ import lombok.Setter;
 @AllArgsConstructor
 // DB CHECK와 중복 (필수 x, 문서화 & 이식성 작업)
 @org.hibernate.annotations.Check(constraints = "category IN ('NOVEL', 'ESSAY', 'POEM', 'MAGAZINE')")
-
 public class C_Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String writer;
