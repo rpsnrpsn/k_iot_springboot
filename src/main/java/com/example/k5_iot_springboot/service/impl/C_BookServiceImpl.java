@@ -92,7 +92,7 @@ public class C_BookServiceImpl implements C_BookService {
     }
 
     @Override
-    public ResponseDto<List<BookResponseDto>> getBookByTitleContaining(String keyword) {
+    public ResponseDto<List<BookResponseDto>> getBooksByTitleContaining(String keyword) {
         List<BookResponseDto> data = null;
 
         if (keyword == null || keyword.isEmpty()) {
@@ -109,14 +109,15 @@ public class C_BookServiceImpl implements C_BookService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("SUCCESS", data);
+        return ResponseDto.setSuccess("SUCCESS", data) ;
     }
 
     @Override
-    public ResponseDto<List<BookResponseDto>> getBookByCategory(C_Category category) {
+    public ResponseDto<List<BookResponseDto>> getBooksByCategory(C_Category category) {
         List<BookResponseDto> data = null;
+
         if (category == null) {
-            return ResponseDto.setFailed("카테고리를 선택해주세요");
+            return ResponseDto.setFailed("카테고리를 선택해주세요.");
         }
 
         List<C_Book> found = bookRepository.findByCategory(category);
@@ -129,8 +130,7 @@ public class C_BookServiceImpl implements C_BookService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("SUCCESS", data);
-
+        return ResponseDto.setSuccess("SUCCESS", data) ;
     }
 
     // 유틸 메서드 (Entity >> Response Dto)
