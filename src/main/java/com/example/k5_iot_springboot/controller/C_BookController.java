@@ -4,8 +4,11 @@ import com.example.k5_iot_springboot.dto.C_Book.BookCreateRequestDto;
 import com.example.k5_iot_springboot.dto.C_Book.BookResponseDto;
 import com.example.k5_iot_springboot.dto.C_Book.BookUpdateRequestDto;
 import com.example.k5_iot_springboot.dto.ResponseDto;
+import com.example.k5_iot_springboot.entity.C_Category;
 import com.example.k5_iot_springboot.service.C_BookService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +62,34 @@ public class C_BookController {
         return ResponseEntity.noContent().build();
     }
 
+    // 2. 검색 & 필터링 (@RequestParam)
+    // : GET 메서드
+
+    // 1) 제목에 특정 단어가 포함된 책 조회
+    @GetMapping("/search/title")
+    public ResponseEntity<ResponseDto<List<BookResponseDto>>> getBooksByTitleContaining(
+            @RequestParam String keyword
+            // 경로값에 ? 이후의 데이터를 키-값 쌍으로 추출되는 값 (?키=값)
+            // >> 항상 문자열로 반환 (숫자형은 int, long으로 자동 변환)
+
+            // cf) 숫자로 변환할 수 없는 데이터 전달 시 400 Bad Request 발생
+    ) {
+        ResponseDto<List<BookResponseDto>> books = bookService.getBookByTitleContaining(keyword);
+        return ResponseEntity
+                .status(books.getMessage().equals("SUCCESS") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
+                .body(books);
+    }
+
+    // 2) 카테고리별 책 조회
+    @GetMapping("/category/{category}") // "/category/ESSAY"
+    public ResponseEntity<ResponseDto<List<BookResponseDto>>> getBookByCategory(
+            @PathVariable C_Category category
+            ) {
+        ResponseDto<List<BookResponseDto>> books = bookService.getBookByCategory(category);
+        return ResponseEntity
+                .status(books.getMessage().equals("SUCCESS") ? HttpStatus.OK : HttpStatus.BAD_REQUEST)
+                .body(books);
+    }
 
 
 
