@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(ApiMappingPattern.Posts.ROOT)
 @RequiredArgsConstructor
@@ -34,7 +36,7 @@ public class D_PostController {
     }
 
     // 2) 게시글 단건 조회 (댓글 포함)
-    @GetMapping(ApiMappingPattern.Posts.BY_ID)
+    @GetMapping(ApiMappingPattern.Posts.ID_ONLY)
     public ResponseEntity<ResponseDto<PostDetailResponseDto>> getPostById(
             @PathVariable Long postId
     ) {
@@ -45,13 +47,13 @@ public class D_PostController {
     // 3) 게시글 전체 조회 (댓글 제외)
     // : 페이징이 필요한 경우 page/size 파라미터 추가 OR Pageable 적용
     @GetMapping
-    public ResponseEntity<ResponseDto<PostListResponseDto>> getAllPosts() {
-        ResponseDto<PostListResponseDto> response = postService.getAllPosts();
+    public ResponseEntity<ResponseDto<List<PostListResponseDto>>> getAllPosts() {
+        ResponseDto<List<PostListResponseDto>> response = postService.getAllPosts();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 4) 게시글 수정 (완전 교체 - PUT)
-    @PutMapping(ApiMappingPattern.Posts.BY_ID)
+    @PutMapping(ApiMappingPattern.Posts.ID_ONLY)
     public ResponseEntity<ResponseDto<PostDetailResponseDto>> updatePost(
             @PathVariable Long postId,
             @Valid @RequestBody PostUpdateRequestDto dto
@@ -62,7 +64,7 @@ public class D_PostController {
 
     // 5) 게시글 삭제
     // : 규격 통일을 위한 200 OK + ResponseDto<Void> 반환
-    @DeleteMapping(ApiMappingPattern.Posts.BY_ID)
+    @DeleteMapping(ApiMappingPattern.Posts.ID_ONLY)
     public ResponseEntity<ResponseDto<Void>> deletePost(@PathVariable Long postId) {
         ResponseDto<Void> response = postService.deletePost(postId);
         return ResponseEntity.status(HttpStatus.OK).body(response);

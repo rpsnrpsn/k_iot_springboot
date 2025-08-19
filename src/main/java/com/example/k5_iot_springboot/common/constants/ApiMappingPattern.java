@@ -21,6 +21,8 @@ public class ApiMappingPattern {
         private Posts() {}
 
         public static final String ROOT = BASE + "/posts";
+        public static final String ID_ONLY = "/{postId}";
+
         public static final String BY_ID = ROOT + "/{postId}";
     }
 
@@ -40,6 +42,8 @@ public class ApiMappingPattern {
         private Comments() {}
 
         public static final String ROOT = Posts.BY_ID + "/comments";
+        public static final String ID_ONLY = "/{commentId}";
+
         public static final String BY_ID = ROOT + "/{commentId}";
     }
 }
