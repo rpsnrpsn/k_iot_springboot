@@ -9,8 +9,6 @@ import jakarta.validation.constraints.Positive;
 
 public interface D_CommentService {
     ResponseDto<CommentResponseDto> createComment(@Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId, @Valid CommentCreateRequestDto dto);
-
-    ResponseDto<CommentResponseDto> updateComment(@Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId, @Positive(message = "commentId 1 이상의 정수여야 합니다.") Long commentId, @Valid CommentUpdateRequestDto dto);
-
-    ResponseDto<CommentResponseDto> deleteComment(@Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId, @Positive(message = "commentId 1 이상의 정수여야 합니다.") Long commentId);
+    ResponseDto<CommentResponseDto> updateComment(@Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId, @Positive(message = "commentId는 1 이상의 정수여야 합니다.") Long commentId, @Valid CommentUpdateRequestDto dto);
+    ResponseDto<Void> deleteComment(@Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId, @Positive(message = "commentId는 1 이상의 정수여야 합니다.") Long commentId);
 }

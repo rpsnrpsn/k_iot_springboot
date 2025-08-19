@@ -53,7 +53,7 @@ public class D_CommentServiceImpl implements D_CommentService {
 
     @Override
     @Transactional
-    public ResponseDto<CommentResponseDto> deleteComment(Long postId, Long commentId) {
+    public ResponseDto<Void> deleteComment(Long postId, Long commentId) {
         D_Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new EntityNotFoundException("해당 id의 댓글을 찾을 수 없습니다."));
 

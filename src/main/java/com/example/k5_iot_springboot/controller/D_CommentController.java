@@ -47,11 +47,11 @@ public class D_CommentController {
     // 3) 댓글 삭제
     // [DELETE] /api/v1/posts/{postId}/comments/{commentId}
     @DeleteMapping(ApiMappingPattern.Comments.ID_ONLY)
-    public ResponseEntity<ResponseDto<CommentResponseDto>> deleteComment(
+    public ResponseEntity<ResponseDto<Void>> deleteComment(
             @PathVariable("postId") @Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId,
             @PathVariable("commentId") @Positive(message = "commentId는 1 이상의 정수여야 합니다.") Long commentId
     ) {
-        ResponseDto<CommentResponseDto> response = commentService.deleteComment(postId, commentId);
+        ResponseDto<Void> response = commentService.deleteComment(postId, commentId);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
