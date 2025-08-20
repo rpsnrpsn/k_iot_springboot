@@ -112,6 +112,40 @@ public class D_PostServiceImpl implements D_PostService {
         return ResponseDto.setSuccess("SUCCESS", result);
     }
 
+    @Override
+    public ResponseDto<List<PostListResponseDto>> searchPostByCommentKeyword(String keyword) {
+        // 1) 입력값 정제/검증
+        String clean = (keyword == null) ? "" : keyword.trim();
+
+        if (clean.isEmpty()) {
+            return ResponseDto.setFailed("검색 키워드는 비어있을 수 없습니다.");
+        }
+
+        if (clean.length() > 100) {
+            return ResponseDto.setFailed("검색 키워드는 100자 이하여야 합니다.");
+        }
+
+        var rows = postRepository.findByCommentKeyword(clean);
+
+        List<PostListResponseDto> result = rows.stream()
+                .map(PostListResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", null);
+
+    }
+
+    @Override
+    public ResponseDto<List<PostWithCommentCountResponseDto>> getAuthorPostWithMinComments(String author, int minCount) {
+        // 입력값 검증
+
+        // 리포지토리 호출 (네이티브 쿼리)
+
+        // 매핑
+
+        return null;
+    }
+
     // 8) 댓글이 가장 많은 상위 5개
     @Override
     public ResponseDto<List<PostWithCommentCountResponseDto>> getTop5PostsByComments() {
