@@ -104,19 +104,27 @@ public class D_PostServiceImpl implements D_PostService {
 
     // 7) 제목 키워드 검색
     @Override
-    public ResponseDto<List<PostListResponseDto>> searchPostByTitle(String keyword) {
-        List<D_Post> posts = postRepository.findByTitleLikeIgnoreCaseOrderByIdDesc(keyword);
+    public ResponseDto<List<PostListResponseDto>> searchPostsByTitle(String keyword) {
+        List<D_Post> posts = postRepository.findByTitleContainingIgnoreCaseOrderByIdDesc(keyword);
         List<PostListResponseDto> result = posts.stream()
                 .map(PostListResponseDto::from)
                 .toList();
-
         return ResponseDto.setSuccess("SUCCESS", result);
     }
 
-    // 8) 댓글이 가장 많은 상위 5개 게시글
+    // 8) 댓글이 가장 많은 상위 5개
     @Override
     public ResponseDto<List<PostWithCommentCountResponseDto>> getTop5PostsByComments() {
-        return null;
+        // var: 지역 변수 타입 추론 (Java 10+)
+        // 장점 - 반환 타입의 길이가 길 경우 간결한 작성
+        // 단점 - 타입을 숨겨버려 가독성 저하
+        var rows = postRepository.findTopPostsByCommentCount_Native(5);
+
+        List<PostWithCommentCountResponseDto> result = rows.stream()
+                .map(PostWithCommentCountResponseDto::from)
+                .toList();
+
+        return ResponseDto.setSuccess("SUCCESS", result);
     }
 
     // === 내부 유틸 메서드 === //

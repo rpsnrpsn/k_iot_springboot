@@ -19,8 +19,7 @@ public interface D_PostService {
     ResponseDto<Void> deletePost(Long id);
 
     ResponseDto<List<PostListResponseDto>> getPostsByAuthor(String author);
-
-    ResponseDto<List<PostListResponseDto>> searchPostByTitle(@NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword);
-
     ResponseDto<List<PostWithCommentCountResponseDto>> getTop5PostsByComments();
+
+    ResponseDto<List<PostListResponseDto>> searchPostsByTitle(@NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword);
 }

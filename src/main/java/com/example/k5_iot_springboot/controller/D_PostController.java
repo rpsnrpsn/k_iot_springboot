@@ -89,7 +89,7 @@ public class D_PostController {
     public ResponseEntity<ResponseDto<List<PostListResponseDto>>> searchPostByTitle(
             @RequestParam("keyword") @NotBlank(message = "검색 키워드는 비어있을 수 없습니다.") String keyword
     ) {
-        ResponseDto<List<PostListResponseDto>> response = postService.searchPostByTitle(keyword);
+        ResponseDto<List<PostListResponseDto>> response = postService.searchPostsByTitle(keyword);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
