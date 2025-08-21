@@ -13,6 +13,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ public abstract class BaseTimeEntity {
     /*
      * 레코드가 수정될 때마다 자동 갱신되는 시간(UTC 기준)
      * */
-    @LastModifiedBy
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME(6)")
     private LocalDateTime updatedAt;
 }
