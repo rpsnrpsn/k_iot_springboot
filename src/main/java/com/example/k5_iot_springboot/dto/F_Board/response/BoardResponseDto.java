@@ -2,6 +2,10 @@ package com.example.k5_iot_springboot.dto.F_Board.response;
 
 import com.example.k5_iot_springboot.common.utils.DateUtils;
 import com.example.k5_iot_springboot.entity.F_Board;
+import lombok.Builder;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /*
 * 게시글 응답 DTO
@@ -55,4 +59,44 @@ public class BoardResponseDto {
             );
         }
     }
+
+    // == 페이지 정보 메타
+    @Builder
+    public record PageMeta(
+            int page,
+            int size,
+            long totalElements,
+            int totalPages,
+            boolean hasNext,
+            boolean hasPrevious,
+            String sort
+    ) {
+        public static PageMeta from(Page<?> p) {
+            String sort = p.getSort().toString();
+            return PageMeta.builder()
+                    .page(p.getNumber())
+                    .size(p.getSize())
+                    .totalElements(p.getTotalElements())
+                    .totalPages(p.getTotalPages())
+                    .hasNext(p.hasNext())
+                    .hasPrevious((p.hasPrevious()))
+                    .sort(sort)
+                    .build();
+        }
+    }
+
+    // == Offset 기반 응답
+    @Builder
+    public record PageResponse(
+            List<SummaryResponse> content,
+            PageMeta meta
+    ) {}
+
+    // == Cursor 기반 응답
+    @Builder
+    public record SliceResponse(
+            List<SummaryResponse> content,
+            boolean hasNext,
+            Long nextCursor
+    ) {}
 }
