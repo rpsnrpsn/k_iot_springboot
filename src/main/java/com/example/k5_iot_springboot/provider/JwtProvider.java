@@ -49,7 +49,7 @@ public class JwtProvider {
     /** 커스텀 클레임 키 */
     public static final String CLAIM_ROLES = "roles";
 
-    /** 서명용 비밀키, 엑세스 토큰 마료시간(ms), 만료 직후 허용할 시계 오차(s) */
+    /** 서명용 비밀키, 엑세스 토큰 만료시간(ms), 만료 직후 허용할 시계 오차(s) */
     // 환경 변수에 지정한 비밀키와 만료 시간 저장 변수 선언
     private final SecretKey key;
     private final int jwtExpirationMs;
