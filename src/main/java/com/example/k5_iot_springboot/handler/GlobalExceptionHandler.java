@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +22,14 @@ import java.util.Objects;
 // 스프링이 빈으로 등록 - 해당 프로젝트 전역의 @RestController에서 발생하는 예외를 처리
 // : 예외를 가로채어 JSON 표준 응답을 반환
 /*
- * 1. 단일 책임 원칙 (SRP)
- *   - 예외 처리를 Controller가 아닌 GEH에서 담당
- *
- * 2. 재사용성 증가
- *   - 모든 Controller에 대한 예외 처리가 한 곳에서 관리
- *
- * 3. 가독성 향상
- * */
+* 1. 단일 책임 원칙 (SRP)
+*   - 예외 처리를 Controller가 아닌 GEH에서 담당
+*
+* 2. 재사용성 증가
+*   - 모든 Controller에 대한 예외 처리가 한 곳에서 관리
+*
+* 3. 가독성 향상
+* */
 @Slf4j // lombok 어노테이션 - 로깅에 대한 추상 레이어를 제공하는 인터페이스 모음
 public class GlobalExceptionHandler {
 
@@ -52,9 +53,9 @@ public class GlobalExceptionHandler {
         // 필드 단위 검증 실패 항목 순회
         e.getBindingResult().getFieldErrors().forEach(err -> {
             list.add(new FieldErrorItem(
-                    err.getField(),                                                 // 실패한 필드명
-                    Objects.toString(err.getRejectedValue(), "null"),   // 거부된 값(널이면 null)
-                    err.getDefaultMessage()                                         // 제약 메시지
+                err.getField(),                                                 // 실패한 필드명
+                Objects.toString(err.getRejectedValue(), "null"),   // 거부된 값(널이면 null)
+                err.getDefaultMessage()                                         // 제약 메시지
             ));
         });
 
@@ -79,6 +80,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDto<Object>> handleValidation(MethodArgumentNotValidException e) {
         log.warn("Validation failed: {}", e.getMessage());
         return fail(ErrorCode.VALIDATION_ERROR, null, toFieldErrors(e));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ResponseDto<Object>> handleAuth(AuthenticationException e) {
+        log.warn("UnAuthorized: {}", e.getMessage());
+        return fail(ErrorCode.UNAUTHORIZED, null, null);
     }
 
     // === 403 Forbidden: 접근 거부 === //

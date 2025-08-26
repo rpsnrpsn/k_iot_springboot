@@ -28,8 +28,8 @@ public record PostListResponseDto(
         return new PostListResponseDto(
                 p.getId(),
                 p.getTitle(),
-                p.getAuthor(),
-                p.getContent()
+                p.getContent(),
+                p.getAuthor()
         );
     }
 

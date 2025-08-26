@@ -1,10 +1,10 @@
 package com.example.k5_iot_springboot.이론;
 
 /*
-    == JpaRepository<E, ID) ==
+    === JpaRepository<E, ID> ===
     : Spring Data JPA에서 제공하는 기본 인터페이스
     - CRUD와 페이징, 정렬을 포함한 다양한 데이터 엑세스 메서드를 제공
-    - 반환타입 메서드명(매개변수); 의 추상 메서드 형식
+    - 반환타입 메서드명(매개변수);의 추상 메서드 형식
 
     1. CRUD 메서드
     1) E save(E entity);
@@ -17,7 +17,7 @@ package com.example.k5_iot_springboot.이론;
         >> 결과가 존재하지 않을 경우 NoSuchElementException 발생 위험 있음
             Optional<> 사용 권장 - orElseThrow() 패턴으로 안전 처리
 
-    3) boolean existsByUId(Id id);
+    3) boolean existsById(Id id);
         : 주어진 Id가 존재하는지 확인
 
     4) List<E> findAll();
@@ -31,8 +31,8 @@ package com.example.k5_iot_springboot.이론;
 
 
     2. 쿼리 메서드
-    : 메서드 이름만으로 JPQL(또는 SQL) 쿼리를 모두 생성하는 기능
-    - 별도 쿼리 작성 없이 이름 규칙에 따라 Spring Data JPA가 내부에서 해석하여 쿼리를 자동 생성
+    : 메서드 이름만으로 JPQL(또는 SQL) 쿼리를 자동 생성하는 기능
+    - 별도 쿼리 작성 없이 이름 규칙에 따라 Spring Data JPA가 내부에서 해석하여 쿼리를 생성
 
     cf) JPQL
         : Java Persistence Query Language
@@ -58,13 +58,13 @@ package com.example.k5_iot_springboot.이론;
 
     StartingWith, EndingWith, Containing: ~로 시작하는, ~로 끝나는, ~를 포함하는
 
-    In / NotIn: 포함, 미포함
+    In / NotIn: 포함, 불포함
 
     OrderBy
 
     cf) 조건이 복잡하거나 조인이 필요한 경우, 메서드 이름만으로 한계가 존재
-            - 직접 쿼리를 작성 가능
-            >> @Query
+        - 직접 쿼리를 작성 가능
+        >> @Query
 */
 
 import java.util.List;
@@ -76,7 +76,8 @@ class Product {
     private int price;
 }
 
-public interface L_JPARepository {
+public interface L_JpaRepository {
+
     // 가격이 특정 값 이상인 상품 조회
     List<Product> findByPriceGreaterThan(int price);
 

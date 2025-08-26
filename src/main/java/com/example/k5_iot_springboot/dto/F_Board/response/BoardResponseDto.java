@@ -7,15 +7,16 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
-/*
-* 게시글 응답 DTO
-* - 프론트 사용성을 높이기 위해 KST 문자열과 UTC ISO 문자열을 함께 제공
-* */
+/**
+ * 게시글 응답 DTO 모음
+ * - 프론트 사용성을 높이기 위해 KST 문자열과 UTC ISO 문자열을 함께 제공
+ * */
 public class BoardResponseDto {
-    /*
-    * 게시글 상세 응답
-    * */
-    public record DetailResponse (
+
+    /**
+     * 게시글 상세 응답
+     * */
+    public record DetailResponse(
             Long id,
             String title,
             String content,
@@ -37,13 +38,13 @@ public class BoardResponseDto {
         }
     }
 
-    /*
-    * 게시글 목록/요약 응답
-    * - 목록 API에서 가벼운 페이로드가 필요할 때 사용
-    *
-    * cf) 페이로드(payload)
-    *       : 전송되는 데이터 중 실질적인 정보
-    * */
+    /**
+     * 게시글 목록/요약 응답
+     * - 목록 API에서 가벼운 페이로드가 필요할 때 사용
+     *
+     * cf) 페이로드(payload)
+     *      : 전송되는 데이터 중 실질적인 정보
+     * */
     public record SummaryResponse(
             Long id,
             String title,
@@ -60,43 +61,42 @@ public class BoardResponseDto {
         }
     }
 
-    // == 페이지 정보 메타
+    // === 페이지 정보 메타 === //
     @Builder
     public record PageMeta(
-            int page,
-            int size,
-            long totalElements,
-            int totalPages,
+            int page,                   // 현재 페이지(0-based)
+            int size,                   // 페이지 크기
+            long totalElements,         // 전체 개수
+            int totalPages,             // 전체 페이지 수
             boolean hasNext,
             boolean hasPrevious,
-            String sort
+            String sort                 // 정렬 정보(문자열화)
     ) {
         public static PageMeta from(Page<?> p) {
-            String sort = p.getSort().toString();
+            String sort = p.getSort().toString(); // ex) createdAt: DESC
             return PageMeta.builder()
                     .page(p.getNumber())
                     .size(p.getSize())
                     .totalElements(p.getTotalElements())
                     .totalPages(p.getTotalPages())
                     .hasNext(p.hasNext())
-                    .hasPrevious((p.hasPrevious()))
+                    .hasPrevious(p.hasPrevious())
                     .sort(sort)
                     .build();
         }
     }
-
-    // == Offset 기반 응답
+    // === OffSet 기반 응답 ===
     @Builder
     public record PageResponse(
             List<SummaryResponse> content,
             PageMeta meta
     ) {}
 
-    // == Cursor 기반 응답
+    // === Cursor 기반 응답 ===
     @Builder
     public record SliceResponse(
             List<SummaryResponse> content,
             boolean hasNext,
-            Long nextCursor
+            Long nextCursor // 다음 호출 시 사용할 cursorId(마지막 아이템의 id 등)
     ) {}
 }

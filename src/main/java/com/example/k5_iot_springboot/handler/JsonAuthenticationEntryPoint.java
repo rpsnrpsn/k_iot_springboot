@@ -16,7 +16,9 @@ import java.nio.charset.StandardCharsets;
 
 // cf) 엔드포인트(endpoint)
 // : 웹 애플리케이션에서 클라이언트가 서버에 요청을 보내는 특정 URL
-// ex) /api/v1/boards, /api/v1/users
+// EX) /api/v1/boards, /api/v1/users
+
+// 401 전용 Entry Point
 @Component
 public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override

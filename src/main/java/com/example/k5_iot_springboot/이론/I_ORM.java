@@ -1,7 +1,7 @@
 package com.example.k5_iot_springboot.이론;
 
 /*
-    == ORM (Object - Relational Mapping) ==
+    === ORM (Object - Relational Mapping) ===
     : 객체와 관계형 DB 간의 1:1 데이터 매핑 기술
     - DB의 테이블과 애플리케이션의 객체 사이의 구조적 불일치를 해결하는 솔루션
 
@@ -22,14 +22,12 @@ package com.example.k5_iot_springboot.이론;
 
     3. JPA (Java Persistence API)
     : ORM 중 하나
-    - JAva 애플리케이션에서 관계형 DB를 쉽게 다룰 수 있는 ORM 표준 기술
+    - Java 애플리케이션에서 관계형 DB를 쉽게 다룰 수 있는 ORM 표준 기술
 
     cf) 영속성 컨텍스트
     : 엔티티의 생명주기를 관리하는 공간
     - DB와의 연결은 유지하면서 엔티티 객체들을 관리
-
 */
 
 public class I_ORM {
-
 }

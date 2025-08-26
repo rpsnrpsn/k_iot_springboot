@@ -65,7 +65,7 @@ public class B_StudentController {
     public ResponseEntity<StudentResponseDto> updateStudent(
             @PathVariable Long id,
             @RequestBody StudentUpdateRequestDto requestDto
-    ) {
+            ) {
         StudentResponseDto updated = studentService.updateStudent(id, requestDto);
         return ResponseEntity.ok(updated);
     }

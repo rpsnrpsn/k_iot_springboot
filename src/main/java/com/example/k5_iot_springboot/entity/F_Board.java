@@ -1,4 +1,3 @@
-
 package com.example.k5_iot_springboot.entity;
 
 import com.example.k5_iot_springboot.entity.base.BaseTimeEntity;

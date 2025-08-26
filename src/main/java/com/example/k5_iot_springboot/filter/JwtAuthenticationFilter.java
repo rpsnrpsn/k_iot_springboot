@@ -26,13 +26,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /*
- * === JwtAuthenticationFilter ===
- * : JWT 인증 필터
- * - 요청에서 JWT 토큰을 추출
- *   >> request의 header에서 토큰을 추출하여 검증 (유효한 경우 SecurityContext에 인증 정보 저장)
- *
- * cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 1회 실행
- * */
+* === JwtAuthenticationFilter ===
+* : JWT 인증 필터
+* - 요청에서 JWT 토큰을 추출
+*   >> request의 header에서 토큰을 추출하여 검증 (유효한 경우 SecurityContext에 인증 정보 저장)
+*
+* cf) Spring Security가 OncePerRequestFilter를 상속받아 매 요청마다 1회 실행
+* */
 @Component // 스프링이 해당 클래스를 관리하도록 지정, 의존성 주입
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {

@@ -21,23 +21,22 @@ public enum C_Category {
     private final String label;
 
     /*
-    *   1) JSON 직렬화 시 동작 메서드
-    *   : ENUM >> String
-    *   : ENUM 객체용 JSON 응답으로 변환할 때, dbValue 값을 그대로 전달
-    *   ex) C_Category.NOVEL >> "NOVEL"
-    * */
+        1) JSON 직렬화 시 동작 메서드
+        : Enum >> String
+        : Enum 객체를 JSON 응답으로 변환할 때, dbValue 값을 그대로 전달
+        EX) C_Category.NOVEL >>> "NOVEL"
+    */
     @JsonValue
-    public  String toJason() {
+    public String toJson() {
         return dbValue;
     }
 
     /*
-    *   2) JSON 역직렬화 시 동작 메서드
-    *   : String >> Enum
-    *   : JSON 요청 값을 Enum 으로 변환할 때, Enum 이름(name)과 값(dbValue) 모두 인식
-    *   - 대소문자 구분 x, 값이 없거나 잘못된 경우 예외 발생
-    * */
-
+        2) JSON 역직렬화 시 동작 메서드
+        : String >> Enum
+        : JSON 요청 값을 Enum으로 변환할 때, Enum 이름(name)과 DB 값(dbValue) 모두 인식
+        - 대소문자 구분 X, 값이 없거나 잘못된 경우 예외 발생
+    */
     @JsonCreator
     public static C_Category fromJson(String value) {
         if (value == null) return null;
@@ -52,9 +51,9 @@ public enum C_Category {
     }
 
     /*
-    *   3) DB 에서 읽어온 문자열 값을 Enum 으로 변환
-    *       : DB애 저장된 값과 정확히 일치하는 Enum을 반환 (일치하는 값 없으면 예외 발생)
-    * */
+        3) DB에서 읽어온 문자열 값을 Enum으로 변환
+            : DB에 저장된 값과 정확히 일치하는 Enum을 반환 (일치하는 값 없으면 예외 발생)
+    */
     public static C_Category fromDbValue(String dbValue) {
         if (dbValue == null) return null;
         return Arrays.stream(values())

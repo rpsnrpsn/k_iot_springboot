@@ -17,8 +17,8 @@ public class D_Comment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    // - Comment : Post = N : 1 관계에서 'N'쪽 매핑명을 설정
-    // - Lazy 설정을 ㅗ필요할 때만 게시글을 로딩
+    // - Comment : Post = N : 1 관계에서 'N'쪽 매핑임을 설정
+    // - Lazy 설정으로 필요할 때만 게시글을 로딩
     // - optional = false: FK가 반드시 존재해야 함을 보장 (데이터 무결성)
     @JoinColumn(name = "post_id", nullable = false)
     // - 외래키 컬럼명 지정
@@ -33,7 +33,7 @@ public class D_Comment {
     @Column(nullable = false, length = 100)
     private String commenter;
 
-    // == 생성/수정 메서드 ==
+    // === 생성/수정 메서드 === //
     private D_Comment(String content, String commenter) {
         this.content = content;
         this.commenter = commenter;
@@ -43,7 +43,7 @@ public class D_Comment {
         return new D_Comment(content, commenter);
     }
 
-    // Post에서만 댓글에 세팅되도록 가시성 축소(연관관계 일관성 유지)
+    // Post에서만 댓글에 세팅되도록 가시성 축소 (연관관계 일관성 유지)
     void setPost(D_Post post) {
         this.post = post;
     }

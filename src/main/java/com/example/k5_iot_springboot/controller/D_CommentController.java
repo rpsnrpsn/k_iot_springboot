@@ -27,7 +27,7 @@ public class D_CommentController {
     public ResponseEntity<ResponseDto<CommentResponseDto>> createComment(
             @PathVariable("postId") @Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId,
             @Valid @RequestBody CommentCreateRequestDto dto
-    ) {
+            ) {
         ResponseDto<CommentResponseDto> response = commentService.createComment(postId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -39,7 +39,7 @@ public class D_CommentController {
             @PathVariable("postId") @Positive(message = "postId는 1 이상의 정수여야 합니다.") Long postId,
             @PathVariable("commentId") @Positive(message = "commentId는 1 이상의 정수여야 합니다.") Long commentId,
             @Valid @RequestBody CommentUpdateRequestDto dto
-    ) {
+            ) {
         ResponseDto<CommentResponseDto> response = commentService.updateComment(postId, commentId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

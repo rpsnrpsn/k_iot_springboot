@@ -100,7 +100,7 @@ class BookStore2 {
 //      EX) Book -> book, BookStore -> bookStore 등
 //          이름 설정 @Component("bookSpecial")
 
-//@Configuration
+// @Configuration
 class ExampleConfig {
 //    @Bean
     public void ExampleBean() {

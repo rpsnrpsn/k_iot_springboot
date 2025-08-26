@@ -1,10 +1,13 @@
 package com.example.k5_iot_springboot.이론;
 
 /*
+* === RESTful API ===
+*
 * 1. REST란?
-*   REpresentation State Transfer
-*   : 자원(Resource)을 URI로 삭제하고
-*   , HTTP 메서드를 이용해 해당 자원에 대한 행위를 정의하는 아키텍쳐 스타일
+*   REpresentaion State Transfer
+*   : 자원(Resource)을 URI로 식별하고
+*   , HTTP 메서드를 이용해 해당 자원에 대한 행위를 정의하는 아키텍처 스타일
+*
 *   - 자원의 표현: JSON, XML 등
 *   - 상태 전달: 요청(Request)과 응답(Response)으로 상태 전송
 *   - HTTP 표준 메서드를 활용
@@ -24,7 +27,7 @@ package com.example.k5_iot_springboot.이론;
 *   (O) /users, /products, /carts, /meetings 등
 *   (X) /getUsers, /matchMembers
 *
-* 2) 소문자 사용 - 대문자 금지
+* 2) 소문자 사용 - 대문자 금지!
 *   (O) /menus, /colors
 *   (X) /Menus, /Products
 *
@@ -37,22 +40,22 @@ package com.example.k5_iot_springboot.이론;
 * 5) 계층 구조 표현 - 관계는 / 로 표현
 *   (O) /users/{userId}/orders/{orderId} - 특정 사용자(userId)의 주문들 중 특정 주문(orderId)
 *
-* 6) 특수형 명사 사용 - 특정 데이터는 복수형 명사 뒤 계층 구조로 표시
+* 6) 복수형 명사 사용 - 특정 데이터는 복수형 명사 뒤 계층 구조로 표시
 *   (O) /users, /posts, /books, /menus
 *
 * +) 버저닝 사용 - API의 시작은 'api/v1' 형태 사용
 *
-*   == RESTful API 예시 ==
+* === RESTful API 예시 ===
 * 케이스1) 사용자/인증
 *   - 회원가입: POST /api/v1/auth/signup
 *   - 로그인: POST /api/v1/auth/login
-*   - 내 정보 조회: GET /api/v1/users/me (로그인 한 자신의 조회)
-*   - 이메일 중복 체크: GET /api/v1/auth/check-email?email=xx..)
+*   - 내 정보 조회: GET /api/v1/users/me (로그인 한 자신의 정보 조회)
+*   - 이메일 중복 체크: GET /api/v1/auth/check-email?email=XXX...)
 *
 * 케이스2) 쇼핑몰
 *   - 상품 목록: GET /api/v1/products
 *   - 상품 리뷰 조회: GET /api/v1/products/{productId}/reviews
-*   - 장바구니: GET /api/v1/users/me/carts (사용자 1인 당 장바구니는 1개)
+*   - 장바구니: GET /api/v1/users/me/cart (사용자 1인 당 장바구니는 1개)
 *   - 주문 생성: POST /api/v1/orders
 *
 * 케이스3) 게시판
