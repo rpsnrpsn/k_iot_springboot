@@ -106,15 +106,25 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 // 예외 처리 지점 (필요 시 커스텀 핸들러 연결)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(
-                                "/api/v1/auth/**"
-                        ).permitAll()
-                        // 읽기 공개 예시 (게시글 목록, 조회 등)
-                        .requestMatchers(HttpMethod.GET, "/api/v1/boards/**").permitAll()
-                        .anyRequest().authenticated() // 나머지는 인증 필요
+                .httpBasic(AbstractHttpConfigurer::disable);
+
+        if (h2ConsoleEnabled) {
+            http.headers(headers
+                    -> headers.frameOptions(frame -> frame.sameOrigin()));
+        }
+
+        http
+                .authorizeHttpRequests(auth -> {
+                            if (h2ConsoleEnabled) auth.requestMatchers("/h2-console/**").permitAll();
+                            auth
+                                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                    .requestMatchers(
+                                            "/api/v1/auth/**"
+                                    ).permitAll()
+                                    // 읽기 공개 예시 (게시글 목록, 조회 등)
+                                    .requestMatchers(HttpMethod.GET, "/api/v1/boards/**").permitAll()
+                                    .anyRequest().authenticated(); // 나머지는 인증 필요
+                        }
                 );
 //        if (h2ConsoleEnabled) {
 //            http.headers(headers
