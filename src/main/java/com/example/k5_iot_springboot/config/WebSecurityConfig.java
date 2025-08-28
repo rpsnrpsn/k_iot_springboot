@@ -163,6 +163,8 @@ public class WebSecurityConfig {
                                     .requestMatchers(HttpMethod.PUT,    "/api/v1/boards/**").hasAnyRole("MANAGER", "ADMIN")
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/boards/**").hasAnyRole("ADMIN")
 
+//                                    .requestMatchers(HttpMethod.)
+
                                     // ADMIN 전용 권한 관리 API
                                     .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
