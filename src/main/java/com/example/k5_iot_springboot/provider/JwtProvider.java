@@ -10,34 +10,34 @@ import javax.crypto.SecretKey;
 import java.util.*;
 
 /*
-* === JwtProvider ===
-* : JWT(JSON Web Token) 토큰을 생성하고 검증하는 역할
-*       >> 로그인 후 서버가 만들어서 클라이언트(브라우저)에게 전달하는 문자열 토큰
-*
-* cf) JWT
-*   : 사용자 정보를 암호화된 토큰으로 저장
-*   - (클라이언트가) 서버에 요청할 때마다 전달 가능 (사용자 정보 확인용, Authorization: Bearer <토큰>)
-*   - 서버는 토큰을 검증하여 누가 요청했는지 판단
-*   >> 주로 로그인 인증에 사용
-*
-*   +) JWT 구조
-*       - header: 어떤 알고리즘으로 서명했는지
-*       - payload: 사용자 정보 (예: username-로그인아이디, roles-권한)
-*       - signature: 토큰 변조 방지용 서명
-*
-*   +) HS256 암호화 알고리즘 사용한 JWT 서명
-*       - 비밀키는 Base64로 인코딩 지정
-*       - JWT 만료 기간은 10시간으로 지정
-*           >> 환경 변수 설정 (jwt.secret / jwt.expiration)
-*
-*   # JwtProvider 클래스 전체 역할 #
-*   1) 토큰 생성(발급)                                - generateJwtToken 메서드
-*   2) Bearer 제거                                   - removeBearer 메서드
-*   3) 토큰 검증/파싱                                 - parseClaimsInternal 메서드
-*   4) payload에 저장된 데이터 추출 (username, roles)  - getUsernameFromJwt, getRolesFromJwt 메서드
-*   5) 만료까지 남은 시간 계산                         - getRemainingMillis 메서드
-*
-* */
+ * === JwtProvider ===
+ * : JWT(JSON Web Token) 토큰을 생성하고 검증하는 역할
+ *       >> 로그인 후 서버가 만들어서 클라이언트(브라우저)에게 전달하는 문자열 토큰
+ *
+ * cf) JWT
+ *   : 사용자 정보를 암호화된 토큰으로 저장
+ *   - (클라이언트가) 서버에 요청할 때마다 전달 가능 (사용자 정보 확인용, Authorization: Bearer <토큰>)
+ *   - 서버는 토큰을 검증하여 누가 요청했는지 판단
+ *   >> 주로 로그인 인증에 사용
+ *
+ *   +) JWT 구조
+ *       - header: 어떤 알고리즘으로 서명했는지
+ *       - payload: 사용자 정보 (예: username-로그인아이디, roles-권한)
+ *       - signature: 토큰 변조 방지용 서명
+ *
+ *   +) HS256 암호화 알고리즘 사용한 JWT 서명
+ *       - 비밀키는 Base64로 인코딩 지정
+ *       - JWT 만료 기간은 10시간으로 지정
+ *           >> 환경 변수 설정 (jwt.secret / jwt.expiration)
+ *
+ *   # JwtProvider 클래스 전체 역할 #
+ *   1) 토큰 생성(발급)                                - generateJwtToken 메서드
+ *   2) Bearer 제거                                   - removeBearer 메서드
+ *   3) 토큰 검증/파싱                                 - parseClaimsInternal 메서드
+ *   4) payload에 저장된 데이터 추출 (username, roles)  - getUsernameFromJwt, getRolesFromJwt 메서드
+ *   5) 만료까지 남은 시간 계산                         - getRemainingMillis 메서드
+ *
+ * */
 @Component
 // cf) @Component(클래스 레벨 선언) - 스프링 런타임 시 컴포넌트 스캔을 통해 자동으로 빈을 찾고 등록 (의존성 주입)
 //     @Bean(메서드 레벨 선언) - 반환되는 객체를 개발자가 수동으로 빈 등록
@@ -52,7 +52,7 @@ public class JwtProvider {
     /** 서명용 비밀키, 엑세스 토큰 만료시간(ms), 만료 직후 허용할 시계 오차(s) */
     // 환경 변수에 지정한 비밀키와 만료 시간 저장 변수 선언
     private final SecretKey key;
-    private final int jwtExpirationMs;
+    private final long jwtExpirationMs;
     private final int clockSkewSeconds;
 
     /** 검증/파싱 파서: 파서를 생성자에서 1회 구성하여 재사용 - 성능/일관성 보장 (JJWT의 파서 객체) */
@@ -63,7 +63,7 @@ public class JwtProvider {
             // @Value: application.properties나 application.yml과 같은 설정 파일의 값을 클래스 변수에 주입
             //          >> 데이터 타입 자동 인식
             @Value("${jwt.secret}") String secret, // cf) Base64 인코딩된 비밀키 문자열이어야 함!
-            @Value("${jwt.expiration}") int jwtExpirationMs,
+            @Value("${jwt.expiration}") long jwtExpirationMs,
             @Value("${jwt.clock-skew-seconds:0}") int clockSkewSeconds // 기본 0 - 옵션
     ) {
         // 생성자: JwtProvider 객체 생성 시 비밀키와 만료시간 초기화
