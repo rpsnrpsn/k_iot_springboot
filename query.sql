@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `products` (
     updated_at 	DATETIME(6) NOT NULL,
     CONSTRAINT	uq_products_name UNIQUE (name),
     INDEX idx_product_name (name) 				# 제품명으로 제품 조회 시 성능 향상
-) ENGINE = InnoDB									# MySQL에서 테이블이 데이터를 저장하고 관리하는 방식을 지정
+) ENGINE = InnoDB								# MySQL에서 테이블이 데이터를 저장하고 관리하는 방식을 지정
   DEFAULT CHARSET = utf8mb4						# DB나 테이블의 기본 문자 집합 (4바이트까지 지원 - 이모지 포함)
   COLLATE = utf8mb4_unicode_ci					# 정렬 순서 지정 (대소문자 구분 없이 문자열 비교 정렬)
   COMMENT = '상품 정보';
