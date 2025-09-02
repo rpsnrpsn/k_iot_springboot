@@ -25,11 +25,11 @@ public class OrderSummaryView {
     private Long orderId;
 
     private Long user_id;           // 뷰 컬럼명 그대로 사용
-    private String order_status;    // 문자열 컬럼 (필요 시 enum 반환은 서비스에서)
+    private String order_status;    // 문자열 컬럼 (필요 시 enum 변환은 서비스에서!)
     private String product_name;
     private Integer quantity;
     private Integer price;
-    private Integer total_price;
+    private Long total_price;
 
     @Column(name = "ordered_at")
     private LocalDateTime orderAt;

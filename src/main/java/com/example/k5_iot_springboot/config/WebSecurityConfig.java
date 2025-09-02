@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -163,7 +162,18 @@ public class WebSecurityConfig {
                                     .requestMatchers(HttpMethod.PUT,    "/api/v1/boards/**").hasAnyRole("MANAGER", "ADMIN")
                                     .requestMatchers(HttpMethod.DELETE, "/api/v1/boards/**").hasAnyRole("ADMIN")
 
-//                                    .requestMatchers(HttpMethod.)
+                                    // articles 접근 제어
+                                    .requestMatchers(HttpMethod.GET,    "/api/v1/articles/**").permitAll()
+
+                                    // products 접근 제어
+                                    .requestMatchers(HttpMethod.GET,    "/api/v1/products/**").permitAll()
+                                    .requestMatchers(HttpMethod.POST,   "/api/v1/products/**").hasRole("ADMIN")
+                                    .requestMatchers(HttpMethod.PUT,   "/api/v1/products/**").hasRole("ADMIN")
+
+                                    // stocks 접근제어
+                                    .requestMatchers(HttpMethod.GET,    "/api/v1/stocks/**").permitAll()
+                                    .requestMatchers(HttpMethod.POST,   "/api/v1/stocks/**").hasAnyRole("ADMIN", "MANAGER")
+                                    .requestMatchers(HttpMethod.PUT,    "/api/v1/stocks/**").hasAnyRole("ADMIN", "MANAGER")
 
                                     // ADMIN 전용 권한 관리 API
                                     .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
