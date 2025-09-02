@@ -137,7 +137,7 @@ SELECT * FROM `user_roles`;
 
 # 샘플데이터 #
 INSERT INTO user_roles (user_id, role)
-VALUES (1, "ADMIN");
+VALUES (8, "ADMIN");
 
 # 0828 (H_Article)
 -- 기사 테이블
@@ -346,5 +346,7 @@ SELECT * FROM `stocks`;
 SELECT * FROM `orders`;
 SELECT * FROM `order_items`;
 SELECT * FROM `order_logs`;
+SELECT * FROM users;
+SELECT * FROM user_roles;
 
 USE k5_iot_springboot;
