@@ -26,7 +26,6 @@ public class H_ArticleServiceImpl implements H_ArticleService {
     private final H_ArticleRepository articleRepository;
     private final G_UserRepository userRepository;
 
-    /** 게시글 생성: 인증된 사용자만 생성 가능 */
     @Override
     @Transactional
     @PreAuthorize("isAuthenticated()")
@@ -54,6 +53,7 @@ public class H_ArticleServiceImpl implements H_ArticleService {
         List<ArticleListResponse> data = null;
 
         data = articleRepository.findAll().stream()
+//                .map(article -> ArticleListResponse.from(article))
                 .map(ArticleListResponse::from)
                 .toList();
 
@@ -79,10 +79,10 @@ public class H_ArticleServiceImpl implements H_ArticleService {
     @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER') or @authz.isArticleAuthor(#articleId, authentication)")
     // Bean으로 등록된 AuthorizationChecker를 어노테이션화 한 기능
     // cf) PreAuthorize | PostAuthorize 내부의 기본 변수
-    //      - authentication: 현재 인증 객체 (자동 패치)
+    //      - authentication: 현재 인증 객체 (자동 캐치)
     //      - principal: authentication.getPrincipal() (주로 UserDetails 구현체)
     //      - #변수명: 메서드 파라미터 중 이름이 해당 변수명인 데이터
-    public ResponseDto<ArticleDetailResponse> updateArticle(Long articleId, ArticleUpdateRequest request) {
+    public ResponseDto<ArticleDetailResponse> updateArticle(UserPrincipal principal, Long articleId, ArticleUpdateRequest request) {
         validateTitleAndContent(request.title(), request.content());
 
         if (articleId == null) throw new IllegalArgumentException("ARTICLE_ID_REQUIRED");
@@ -101,7 +101,7 @@ public class H_ArticleServiceImpl implements H_ArticleService {
 
     @Override
     @Transactional
-    @PreAuthorize("hanRole('ADMIN') or @authz.isArticleAuthor(#id, authentication)")
+    @PreAuthorize("hasRole('ADMIN') or @authz.isArticleAuthor(#id, authentication)")
     public ResponseDto<Void> deleteArticle(UserPrincipal principal, Long id) {
         if (id == null) throw new IllegalArgumentException("ARTICLE_ID_REQUIRED");
 

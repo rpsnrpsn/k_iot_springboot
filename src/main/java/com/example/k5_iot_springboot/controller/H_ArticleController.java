@@ -10,6 +10,7 @@ import com.example.k5_iot_springboot.service.H_ArticleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,12 @@ import java.util.List;
 public class H_ArticleController {
     private final H_ArticleService articleService;
 
-    // 생성
+    /** 게시글 생성: 인증된 사용자만 생성 가능 */
     @PostMapping
     public ResponseEntity<ResponseDto<ArticleDetailResponse>> createArticle(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody ArticleCreateRequest request
-            ) {
+    ) {
         ResponseDto<ArticleDetailResponse> response = articleService.createArticle(principal, request);
         return ResponseEntity.ok().body(response);
     }
@@ -53,8 +54,8 @@ public class H_ArticleController {
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long id,
             @Valid @RequestBody ArticleUpdateRequest request
-            ) {
-        ResponseDto<ArticleDetailResponse> response = articleService.updateArticle(id, request);
+    ) {
+        ResponseDto<ArticleDetailResponse> response = articleService.updateArticle(principal, id, request);
         return ResponseEntity.ok().body(response);
     }
 
@@ -67,5 +68,4 @@ public class H_ArticleController {
         ResponseDto<Void> response = articleService.deleteArticle(principal, id);
         return ResponseEntity.ok().body(response);
     }
-
 }
