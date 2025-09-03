@@ -11,10 +11,7 @@ import java.util.List;
 
 public interface I_OrderService {
     ResponseDto<OrderResponse.Detail> create(UserPrincipal userPrincipal, OrderRequest.OrderCreateRequest req);
-
     ResponseDto<OrderResponse.Detail> approve(UserPrincipal userPrincipal, Long orderId);
-
     ResponseDto<OrderResponse.Detail> cancel(UserPrincipal userPrincipal, Long orderId);
-
-    ResponseDto<List<OrderResponse.Detail>> search(Long userId, OrderStatus status, LocalDateTime from, LocalDateTime to);
+    ResponseDto<List<OrderResponse.Detail>> search(UserPrincipal userPrincipal, Long userId, OrderStatus status, LocalDateTime from, LocalDateTime to);
 }

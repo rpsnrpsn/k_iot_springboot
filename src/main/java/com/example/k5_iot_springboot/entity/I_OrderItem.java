@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,26 +23,30 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class I_OrderItem extends BaseTimeEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id", nullable = false,
-        foreignKey = @ForeignKey(name = "fk_order_items_order"))
+            foreignKey = @ForeignKey(name = "fk_order_items_order"))
     private I_Order order;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false,
-        foreignKey = @ForeignKey(name = "fk_order_items_product"))
+            foreignKey = @ForeignKey(name = "fk_order_items_product"))
     private I_Product product;
 
     @Min(1)
     @Column(nullable = false)
     private int quantity;
+
+    @Builder
+    public I_OrderItem(I_Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
 
     void setOrder(I_Order order) {
         this.order = order;
