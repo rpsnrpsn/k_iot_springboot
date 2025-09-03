@@ -23,6 +23,4 @@ public interface I_OrderRepository extends JpaRepository<I_Order, Long>, I_Order
         where o.id = :orderId
     """)
     Optional<I_Order> findDetailById(@Param("orderId") Long orderId);
-
-    List<I_Order> searchOrders(Long userId, OrderStatus status, LocalDateTime from, LocalDateTime to);
 }
