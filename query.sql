@@ -137,7 +137,7 @@ SELECT * FROM `user_roles`;
 
 # 샘플데이터 #
 INSERT INTO user_roles (user_id, role)
-VALUES (8, "ADMIN");
+VALUES (1, "ADMIN");
 
 # 0828 (H_Article)
 -- 기사 테이블
